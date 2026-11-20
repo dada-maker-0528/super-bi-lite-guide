@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超级 BI（轻量版）· 产品说明</title>
+<style>
+  :root {
+    --bg: #FAFAF9;
+    --surface: #FFFFFF;
+    --surface-muted: #F4F4F2;
+    --ink: #0F172A;
+    --ink-secondary: #475569;
+    --ink-muted: #64748B;
+    --border: #E2E8F0;
+    --border-soft: #EFEFED;
+    --accent: #2563EB;
+    --accent-soft: #EFF6FF;
+    --accent-border: #BFDBFE;
+    --green: #059669;
+    --green-soft: #ECFDF5;
+    --amber: #D97706;
+    --amber-soft: #FFFBEB;
+    --rose: #E11D48;
+    --rose-soft: #FFF1F2;
+    --slate-dark: #1E293B;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.03);
+    --shadow-md: 0 10px 30px -10px rgba(15, 23, 42, 0.08), 0 4px 12px -4px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 24px 48px -16px rgba(15, 23, 42, 0.12), 0 8px 20px -8px rgba(15, 23, 42, 0.05);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Inter", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 250, 249, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .topbar-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+  }
+  .brand-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .nav a {
+    font-size: 13.5px;
+    color: var(--ink-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+  .nav a:hover { color: var(--accent); }
+  .print-btn {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+  }
+  .print-btn:hover {
+    border-color: #CBD5E1;
+    background: #F8FAFC;
+  }
+
+  /* Layout */
+  .container {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  section {
+    padding: 76px 0;
+  }
+  .section-head {
+    max-width: 680px;
+    margin-bottom: 42px;
+  }
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-size: 30px;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    line-height: 1.28;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .section-desc {
+    font-size: 15.5px;
+    color: var(--ink-secondary);
+    line-height: 1.7;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 64px 0 72px;
+    border-bottom: 1px solid var(--border-soft);
+    background: radial-gradient(1000px 420px at 80% 0%, rgba(37, 99, 235, 0.06), transparent 70%);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.02fr 1.15fr;
+    gap: 44px;
+    align-items: center;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-secondary);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .hero-badge .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .hero h1 {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.22;
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+  .hero h1 span {
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--ink-secondary);
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .hero-metric {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .hero-metric strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 2px;
+  }
+  .hero-metric span {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .btn-primary:hover { background: #1E293B; transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .btn-secondary:hover { background: #F8FAFC; }
+
+  /* Hero Product Mockup Window */
+  .mockup-window {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .mockup-bar {
+    height: 38px;
+    background: #F8FAFC;
+    border-bottom: 1px solid var(--border-soft);
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .win-dots { display: flex; gap: 6px; }
+  .win-dots i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+  .win-dots i:nth-child(1) { background: #FCA5A5; }
+  .win-dots i:nth-child(2) { background: #FCD34D; }
+  .win-dots i:nth-child(3) { background: #6EE7B7; }
+  .win-title { font-size: 11.5px; color: var(--ink-muted); font-weight: 500; }
+  .win-badge {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--green);
+    background: var(--green-soft);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .mockup-body {
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 1.22fr 0.92fr;
+    gap: 14px;
+    background: #FCFCFB;
+  }
+  .mock-panel {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .mock-panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .mock-panel-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .mock-panel-sub {
+    font-size: 10.5px;
+    color: var(--ink-muted);
+  }
+  .kpi-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .kpi-mini {
+    border: 1px solid var(--border-soft);
+    border-radius: 9px;
+    padding: 10px;
+    background: #FAFAF9;
+  }
+  .kpi-mini.alert {
+    border-color: #FDE68A;
+    background: #FFFDF5;
+  }
+  .kpi-mini .lbl { font-size: 10.5px; color: var(--ink-muted); margin-bottom: 3px; }
+  .kpi-mini .val { font-size: 16px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+  .kpi-mini .delta { font-size: 10.5px; font-weight: 600; margin-top: 2px; }
+  .delta.up { color: var(--green); }
+  .delta.down { color: var(--rose); }
+  .mock-chart-box {
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+  }
+  .mock-ai-bubble {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-border);
+    border-radius: 10px;
+    padding: 10px 11px;
+    font-size: 11.5px;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .mock-ai-q {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .mock-attr-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .mock-attr-row:last-child { border-bottom: none; }
+  .mock-bar-wrap {
+    width: 68px;
+    height: 6px;
+    background: #F1F5F9;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .mock-bar { height: 100%; border-radius: 999px; }
+  .mock-source-tag {
+    margin-top: 10px;
+    padding: 6px 8px;
+    border-radius: 7px;
+    background: #F8FAFC;
+    border: 1px solid var(--border-soft);
+    font-size: 10px;
+    color: var(--ink-muted);
+    line-height: 1.45;
+  }
+
+  /* Pain vs Solution */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .compare-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+  }
+  .compare-card.highlight {
+    border-color: var(--accent-border);
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FBFF 100%);
+  }
+  .compare-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  .compare-label.old { background: #F1F5F9; color: var(--ink-secondary); }
+  .compare-label.new { background: var(--accent-soft); color: var(--accent); }
+  .compare-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .compare-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14.5px;
+    color: var(--ink-secondary);
+  }
+  .compare-list li strong { color: var(--ink); font-weight: 650; }
+  .ic-circle {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+  .ic-circle.bad { background: #FEE2E2; color: #DC2626; }
+  .ic-circle.good { background: var(--green-soft); color: var(--green); }
+
+  /* Scenarios */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .scenario-card {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .scenario-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .scenario-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .scenario-role {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .scenario-card h3 {
+    font-size: 16.5px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .scenario-card p {
+    font-size: 13.5px;
+    color: var(--ink-secondary);
+    line-height: 1.65;
+  }
+
+  /* Alternating Feature Rows */
+  .feature-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+  .feature-row {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 40px;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: var(--shadow-sm);
+  }
+  .feature-row.reverse {
+    grid-template-columns: 1.15fr 1fr;
+  }
+  .feature-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .feature-text h3 {
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .feature-text p {
+    font-size: 14.5px;
+    color: var(--ink-secondary);
+    margin-bottom: 18px;
+    line-height: 1.7;
+  }
+  .feature-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .feature-bullets li {
+    font-size: 13.8px;
+    color: var(--ink);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .feature-bullets li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+  .visual-stage {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+
+  /* Permission Interactive Widget */
+  .role-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .role-tab {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .role-tab.active {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+  .perm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .perm-cell {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 11px;
+    transition: all 0.2s;
+  }
+  .perm-cell.locked {
+    opacity: 0.42;
+    background: #F1F5F9;
+    border-style: dashed;
+  }
+  .perm-cell .tier {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .tier.pub { background: var(--green-soft); color: var(--green); }
+  .tier.ops { background: var(--amber-soft); color: var(--amber); }
+  .tier.fin { background: var(--rose-soft); color: var(--rose); }
+  .perm-cell .name { font-size: 12.5px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+  .perm-cell .status { font-size: 11px; color: var(--ink-muted); }
+
+  /* 64 Metrics System */
+  .metrics-layout {
+    display: grid;
+    grid-template-columns: 0.95fr 1.25fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    box-shadow: var(--shadow-sm);
+  }
+  .chart-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .chart-card .sub {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: 18px;
+  }
+  .bar-list { display: flex; flex-direction: column; gap: 11px; }
+  .bar-item { display: flex; flex-direction: column; gap: 4px; }
+  .bar-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .bar-meta span:last-child { color: var(--ink-muted); font-weight: 600; }
+  .bar-track {
+    height: 8px;
+    border-radius: 999px;
+    background: #F1F5F9;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #3B82F6, #2563EB);
+  }
+  .sensitivity-strip {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .seg-bar {
+    display: flex;
+    height: 10px;
+    border-radius: 999px;
+    overflow: hidden;
+    gap: 2px;
+    margin: 10px 0;
+  }
+  .seg-legend {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--ink-secondary);
+  }
+  .seg-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .seg-legend i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .module-card {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .module-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .module-card-head strong { font-size: 14.5px; font-weight: 700; }
+  .module-count {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .module-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .module-tags span {
+    font-size: 11.5px;
+    color: var(--ink-secondary);
+    background: var(--surface-muted);
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  /* Delivery & Boundaries */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    position: relative;
+  }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .step-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .step-card p { font-size: 13px; color: var(--ink-secondary); line-height: 1.6; }
+
+  .delivery-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .info-card .kicker {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .info-card h4 { font-size: 18px; font-weight: 750; margin-bottom: 10px; }
+  .info-card p { font-size: 13.8px; color: var(--ink-secondary); line-height: 1.68; }
+
+  .boundary-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .boundary-col {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 24px 26px;
+  }
+  .boundary-col h4 {
+    font-size: 15.5px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .boundary-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .boundary-col li {
+    font-size: 13.8px;
+    color: var(--ink-secondary);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  /* Roadmap */
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .road-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+  }
+  .road-card.phase1 {
+    border-top: 4px solid var(--accent);
+  }
+  .road-card.phase2 {
+    border-top: 4px solid #64748B;
+  }
+  .road-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+  .phase1 .road-badge { background: var(--accent-soft); color: var(--accent); }
+  .phase2 .road-badge { background: #F1F5F9; color: var(--ink-secondary); }
+  .road-card h3 { font-size: 20px; font-weight: 750; margin-bottom: 10px; }
+  .road-card p { font-size: 14px; color: var(--ink-secondary); margin-bottom: 16px; }
+  .industry-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .industry-pills span {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface-muted);
+    color: var(--ink-secondary);
+    border: 1px solid var(--border-soft);
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border-soft);
+    padding: 36px 0 48px;
+    background: var(--surface);
+    color: var(--ink-muted);
+    font-size: 13px;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .hero-grid, .feature-row, .feature-row.reverse, .metrics-layout, .compare-grid, .boundary-box, .roadmap-grid {
+      grid-template-columns: 1fr;
+    }
+    .scenario-grid, .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    .delivery-cards { grid-template-columns: 1fr; }
+    .nav { display: none; }
+    .hero h1 { font-size: 32px; }
+  }
+  @media (max-width: 600px) {
+    .scenario-grid, .steps-grid, .module-grid, .perm-grid, .mockup-body { grid-template-columns: 1fr; }
+    .hero-metrics { grid-template-columns: 1fr; }
+    .feature-row { padding: 24px; }
+  }
+  @media print {
+    .topbar, .print-btn, .hero-actions { display: none !important; }
+    body { background: #fff; }
+    section { padding: 32px 0; break-inside: avoid; }
+    .feature-row, .mockup-window, .chart-card, .info-card, .road-card { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#">
+      <span class="brand-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>
+        </svg>
+      </span>
+      <span>超级 BI</span>
+      <span class="brand-tag">轻量版</span>
+    </a>
+    <nav class="nav">
+      <a href="#positioning">产品定位</a>
+      <a href="#scenarios">适用场景</a>
+      <a href="#capabilities">核心能力</a>
+      <a href="#metrics">指标体系</a>
+      <a href="#delivery">交付与边界</a>
+      <a href="#roadmap">演进路线</a>
+    </nav>
+    <button class="print-btn" onclick="window.print()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      导出 / 打印 PDF
+    </button>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-badge">
+        <span class="dot"></span>
+        产品说明 · 面向中小及成长型企业的 AI 经营分析标品
+      </div>
+      <h1>上传一张业务宽表，<br>开启 <span>AI 经营决策驾驶舱</span></h1>
+      <p class="hero-sub">
+        面向没有专职数据团队与自建数仓的中小及成长型企业，为实控人、总经理及各职能主管提供开箱即用的经营分析服务——集多维指标监控、自然语言问数、变动归因拆解与分级权限管控于一体，让日常巡检与经营复盘快人一步。
+      </p>
+      <div class="hero-metrics">
+        <div class="hero-metric">
+          <strong>64 项</strong>
+          <span>预置通用经营指标</span>
+        </div>
+        <div class="hero-metric">
+          <strong>8 大模块</strong>
+          <span>覆盖核心企业职能</span>
+        </div>
+        <div class="hero-metric">
+          <strong>0 门槛</strong>
+          <span>单表上传即自动匹配</span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#capabilities">查看核心产品能力</a>
+        <a class="btn-secondary" href="#delivery">了解交付与上线节奏</a>
+      </div>
+    </div>
+
+    <!-- High-Fidelity Product Interface Visual -->
+    <div class="mockup-window" aria-label="超级 BI 产品界面示意">
+      <div class="mockup-bar">
+        <div class="win-dots"><i></i><i></i><i></i></div>
+        <div class="win-title">超级 BI · 企业经营驾驶舱（示意视图）</div>
+        <div class="win-badge">口径已溯源 · 零编数</div>
+      </div>
+      <div class="mockup-body">
+        <!-- Left: KPI + Trend -->
+        <div class="mock-panel">
+          <div class="mock-panel-head">
+            <span class="mock-panel-title">核心经营健康度</span>
+            <span class="mock-panel-sub">2026 Q3 · 全国</span>
+          </div>
+          <div class="kpi-mini-grid">
+            <div class="kpi-mini">
+              <div class="lbl">营业收入</div>
+              <div class="val">¥ 4,820万</div>
+              <div class="delta up">↑ 12.4% 同比</div>
+            </div>
+            <div class="kpi-mini alert">
+              <div class="lbl">综合毛利率 · 预警</div>
+              <div class="val">31.8%</div>
+              <div class="delta down">↓ 2.6pp 同比</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="lbl">经营现金流净额</div>
+              <div class="val">¥ 690万</div>
+              <div class="delta up">↑ 8.1% 同比</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="lbl">应收账款周转天数</div>
+              <div class="val">42 天</div>
+              <div class="delta up">↓ 5天 改善</div>
+            </div>
+          </div>
+          <div class="mock-chart-box">
+            <div style="display:flex;justify-content:space-between;font-size:10.5px;color:#64748B;margin-bottom:6px;">
+              <span>近 6 期营收与毛利率走势</span>
+              <span style="color:#2563EB;font-weight:600;">多指标并排对比</span>
+            </div>
+            <svg viewBox="0 0 280 78" width="100%" height="78" style="display:block;">
+              <defs>
+                <linearGradient id="areaBlue" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2563EB" stop-opacity="0.18"/>
+                  <stop offset="100%" stop-color="#2563EB" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid lines -->
+              <line x1="0" y1="18" x2="280" y2="18" stroke="#F1F5F9" stroke-width="1"/>
+              <line x1="0" y1="42" x2="280" y2="42" stroke="#F1F5F9" stroke-width="1"/>
+              <line x1="0" y1="64" x2="280" y2="64" stroke="#E2E8F0" stroke-width="1"/>
+              <!-- Revenue area -->
+              <path d="M12,50 L62,45 L112,38 L162,33 L212,24 L264,16 L264,64 L12,64 Z" fill="url(#areaBlue)"/>
+              <polyline points="12,50 62,45 112,38 162,33 212,24 264,16" fill="none" stroke="#2563EB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Margin line -->
+              <polyline points="12,28 62,27 112,30 162,29 212,37 264,46" fill="none" stroke="#D97706" stroke-width="2" stroke-dasharray="4 3" stroke-linecap="round"/>
+              <!-- Dots -->
+              <circle cx="264" cy="16" r="3.5" fill="#2563EB"/>
+              <circle cx="264" cy="46" r="3.5" fill="#D97706"/>
+              <text x="12" y="75" font-size="8.5" fill="#94A3B8">Q2'25</text>
+              <text x="110" y="75" font-size="8.5" fill="#94A3B8">Q4'25</text>
+              <text x="236" y="75" font-size="8.5" fill="#94A3B8">Q3'26</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Right: AI Ask & Attribution -->
+        <div class="mock-panel" style="display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <div class="mock-panel-head">
+              <span class="mock-panel-title">AI 经营助手 · 归因拆解</span>
+              <span class="mock-panel-sub">今日早报</span>
+            </div>
+            <div class="mock-ai-bubble">
+              <div class="mock-ai-q">Q：为什么 Q3 综合毛利率同比下降 2.6pp？</div>
+              <div>核心受<strong>华东区大客户折扣扩大</strong>及<strong>原材料采购成本上涨</strong>拉动，两项合计贡献 82% 降幅：</div>
+            </div>
+            <div class="mock-attr-row">
+              <span>华东大客户折扣</span>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="mock-bar-wrap"><div class="mock-bar" style="width:76%;background:#E11D48;"></div></div>
+                <strong style="color:#E11D48;">-1.4pp</strong>
+              </div>
+            </div>
+            <div class="mock-attr-row">
+              <span>原材料采购单价</span>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="mock-bar-wrap"><div class="mock-bar" style="width:48%;background:#D97706;"></div></div>
+                <strong style="color:#D97706;">-0.7pp</strong>
+              </div>
+            </div>
+            <div class="mock-attr-row">
+              <span>高毛利新品占比</span>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="mock-bar-wrap"><div class="mock-bar" style="width:32%;background:#059669;"></div></div>
+                <strong style="color:#059669;">+0.3pp</strong>
+              </div>
+            </div>
+          </div>
+          <div class="mock-source-tag">
+            <strong>口径溯源：</strong>毛利率 = (营业收入 - 营业成本) / 营业收入 · 来源：经营主宽表（已校验 0 缺失）
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Positioning: Pain vs Solution -->
+<section id="positioning">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">01 · 产品定位</div>
+      <h2 class="section-title">为什么中小企业的经营分析，不该从建数仓开始？</h2>
+      <p class="section-desc">
+        传统 BI 项目动辄数月实施、依赖专职数仓与分析师；而纯手工 Excel 合并耗时费力、口径难统一。超级 BI（轻量版）切入「单表即用」的务实区间，帮企业用最低成本跑通数据驱动决策。
+      </p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <span class="compare-label old">传统做法的常见瓶颈</span>
+        <ul class="compare-list">
+          <li><span class="ic-circle bad">✕</span><div><strong>上手门槛高、实施周期长：</strong>传统 BI 需要先搭数仓、做 ETL 开发和指标建模，中小企业缺乏专职数据工程师，项目往往半途而废。</div></li>
+          <li><span class="ic-circle bad">✕</span><div><strong>手工拼表耗时、口径打架：</strong>财务、销售、人力各有一套 Excel，开经营会前半天都在核对“谁的数才准”，无暇分析原因。</div></li>
+          <li><span class="ic-circle bad">✕</span><div><strong>只看结果、难追根因：</strong>静态报表能看到“毛利降了”，但要搞清“是哪个区域、哪类业务拉低的”，还得重新找人拉数。</div></li>
+          <li><span class="ic-circle bad">✕</span><div><strong>敏感数据难隔离：</strong>一整张总表发群里容易泄密，按部门手工拆分又极易出错。</div></li>
+        </ul>
+      </div>
+
+      <div class="compare-card highlight">
+        <span class="compare-label new">超级 BI（轻量版）的解法</span>
+        <ul class="compare-list">
+          <li><span class="ic-circle good">✓</span><div><strong>上传即用，零数仓前置依赖：</strong>上传整理好的单张标准业务宽表（CSV/Excel），系统自动校验字段并激活达标指标，快速进入可用状态。</div></li>
+          <li><span class="ic-circle good">✓</span><div><strong>预置 64 项跨行业标准指标口径：</strong>内置覆盖 8 大职能模块的标准定义与计算公式，缺失字段透明标注、不补零、不编数，全公司统一语言。</div></li>
+          <li><span class="ic-circle good">✓</span><div><strong>确定性 AI 问数 + 逐层归因：</strong>管理层用大白话提问即可获得带口径与来源说明的答案，并自动按业务维度拆解变动贡献。</div></li>
+          <li><span class="ic-circle good">✓</span><div><strong>按「层级 × 领域」强制鉴权：</strong>系统按角色自动隔离公开、运营敏感与财务核心三类数据，一套系统安全服务全员管理层。</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Scenarios -->
+<section id="scenarios" style="background: var(--surface); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft);">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">02 · 适用场景</div>
+      <h2 class="section-title">覆盖管理层最高频的 4 类经营分析场景</h2>
+      <p class="section-desc">
+        从每天早上的 3 分钟速览，到月度经营分析会的大屏投屏复盘，适配企业核心管理节奏。
+      </p>
+    </div>
+
+    <div class="scenario-grid">
+      <div class="scenario-card">
+        <div class="scenario-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+        </div>
+        <div class="scenario-role">实控人 · 总经理</div>
+        <h3>每日经营早报与巡检</h3>
+        <p>每天打开系统自动获取按角色生成的经营简报，第一时间掌握核心营收、现金流与异常预警清单，不错过关键苗头。</p>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-icon" style="background:#ECFDF5;color:#059669;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="scenario-role">经营分析会 · 管理层</div>
+        <h3>月度 / 季度复盘投屏</h3>
+        <p>适配桌面端与会议室大屏展示，告别会前赶做 PPT。现场即可切换周期与区域，对比核心指标走势并逐层下钻核查。</p>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-icon" style="background:#FFFBEB;color:#D97706;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+        </div>
+        <div class="scenario-role">财务 · 销售 · 人力 · 供应链主管</div>
+        <h3>职能专项监控</h3>
+        <p>各职能主管仅查看本领域授权指标，聚焦回款周转、商机转化、人效流失、库存周转等专项健康度与达成进度。</p>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-icon" style="background:#F5F3FF;color:#7C3AED;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="scenario-role">所有授权管理者</div>
+        <h3>临时问数与归因排查</h3>
+        <p>开会或决策时遇到突发问题，直接用自然语言提问即可拿到可追溯结果，并对“为什么下降”自动做逐层贡献拆解。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Core Capabilities -->
+<section id="capabilities">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">03 · 核心能力</div>
+      <h2 class="section-title">四大核心产品能力，兼顾「好用」与「可信」</h2>
+      <p class="section-desc">
+        每一项功能都围绕真实经营决策闭环设计：数据进得来、指标算得准、原因查得清、权限守得住。
+      </p>
+    </div>
+
+    <div class="feature-stack">
+      <!-- Feature 1 -->
+      <div class="feature-row">
+        <div class="feature-text">
+          <div class="feature-num">能力 01 · 数据接入</div>
+          <h3>轻量化宽表接入与自动指标激活</h3>
+          <p>无需改造现有 ERP/CRM，也不必搭建复杂数据仓库。按字段规范整理好单张业务宽表（CSV/Excel）上传，系统自动完成语义映射与指标匹配。</p>
+          <ul class="feature-bullets">
+            <li>预置 8 大业务模块、64 项通用经营指标，字段齐备的指标自动点亮可用</li>
+            <li>缺失字段或分母为零时如实透明标注原因，绝不自动补零、不编造数据</li>
+            <li>支持单表最高 20 万行、80 列经营数据，满足绝大多数中小企业分析体量</li>
+          </ul>
+        </div>
+        <div class="visual-stage">
+          <svg viewBox="0 0 480 220" width="100%" style="display:block;">
+            <!-- Step 1 Box -->
+            <rect x="10" y="34" width="122" height="152" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+            <rect x="24" y="50" width="38" height="20" rx="5" fill="#EFF6FF"/>
+            <text x="43" y="64" text-anchor="middle" font-size="10" font-weight="700" fill="#2563EB">CSV/XLS</text>
+            <text x="24" y="92" font-size="13" font-weight="700" fill="#0F172A">单张业务宽表</text>
+            <text x="24" y="112" font-size="11" fill="#64748B">≤ 20万行 · ≤ 80列</text>
+            <line x1="24" y1="126" x2="116" y2="126" stroke="#F1F5F9"/>
+            <text x="24" y="144" font-size="10.5" fill="#475569">• 日期 / 区域 / 部门</text>
+            <text x="24" y="162" font-size="10.5" fill="#475569">• 营收 / 成本 / 人力</text>
+
+            <!-- Arrow 1 -->
+            <path d="M138 110 L170 110" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4 3"/>
+            <polygon points="170,105 179,110 170,115" fill="#94A3B8"/>
+
+            <!-- Step 2 Box -->
+            <rect x="182" y="24" width="128" height="172" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+            <text x="246" y="54" text-anchor="middle" font-size="11" font-weight="700" fill="#2563EB">轻量语义映射引擎</text>
+            <rect x="196" y="68" width="100" height="32" rx="7" fill="#FFFFFF" stroke="#DBEAFE"/>
+            <text x="246" y="88" text-anchor="middle" font-size="11" font-weight="600" fill="#0F172A">自动匹配标准口径</text>
+            <rect x="196" y="108" width="100" height="32" rx="7" fill="#FFFFFF" stroke="#DBEAFE"/>
+            <text x="246" y="128" text-anchor="middle" font-size="11" font-weight="600" fill="#0F172A">字段完整性校验</text>
+            <rect x="196" y="148" width="100" height="32" rx="7" fill="#ECFDF5" stroke="#A7F3D0"/>
+            <text x="246" y="168" text-anchor="middle" font-size="10.5" font-weight="600" fill="#059669">缺字段透明标注</text>
+
+            <!-- Arrow 2 -->
+            <path d="M316 110 L348 110" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4 3"/>
+            <polygon points="348,105 357,110 348,115" fill="#94A3B8"/>
+
+            <!-- Step 3 Box -->
+            <rect x="360" y="24" width="110" height="172" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+            <text x="415" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="#0F172A">即刻启用</text>
+            <rect x="372" y="64" width="86" height="28" rx="6" fill="#F8FAFC" stroke="#E2E8F0"/>
+            <text x="415" y="82" text-anchor="middle" font-size="10.5" font-weight="600" fill="#0F172A">经营驾驶舱</text>
+            <rect x="372" y="100" width="86" height="28" rx="6" fill="#F8FAFC" stroke="#E2E8F0"/>
+            <text x="415" y="118" text-anchor="middle" font-size="10.5" font-weight="600" fill="#0F172A">自然语言问数</text>
+            <rect x="372" y="136" width="86" height="28" rx="6" fill="#F8FAFC" stroke="#E2E8F0"/>
+            <text x="415" y="154" text-anchor="middle" font-size="10.5" font-weight="600" fill="#0F172A">每日经营早报</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-row reverse">
+        <div class="visual-stage">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <span style="font-size:12.5px;font-weight:700;color:#0F172A;">多指标并排对比 · 异常预警示意</span>
+            <span style="font-size:11px;color:#64748B;background:#fff;border:1px solid #E2E8F0;padding:2px 8px;border-radius:6px;">同比 / 环比 · 按区域筛选</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+            <div style="background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:12px;">
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748B;"><span>营收达成率</span><span style="color:#059669;font-weight:700;">健康</span></div>
+              <div style="font-size:20px;font-weight:800;margin:4px 0;">104.2%</div>
+              <div style="height:6px;background:#F1F5F9;border-radius:999px;overflow:hidden;"><div style="width:88%;height:100%;background:#059669;"></div></div>
+            </div>
+            <div style="background:#FFFDF5;border:1px solid #FDE68A;border-radius:10px;padding:12px;">
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:#92400E;"><span>库存周转天数</span><span style="color:#D97706;font-weight:700;">需关注</span></div>
+              <div style="font-size:20px;font-weight:800;margin:4px 0;color:#B45309;">68 天</div>
+              <div style="font-size:11px;color:#D97706;">较目标 +13 天 · 华南仓积压</div>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:12px;">
+            <div style="font-size:11.5px;font-weight:600;margin-bottom:8px;color:#334155;">各区域毛利率 vs 营收增速对比</div>
+            <svg viewBox="0 0 400 84" width="100%" height="84" style="display:block;">
+              <rect x="20" y="18" width="24" height="48" rx="4" fill="#2563EB"/>
+              <rect x="48" y="34" width="24" height="32" rx="4" fill="#93C5FD"/>
+              <text x="46" y="79" text-anchor="middle" font-size="10" fill="#64748B">华东</text>
+
+              <rect x="120" y="10" width="24" height="56" rx="4" fill="#2563EB"/>
+              <rect x="148" y="20" width="24" height="46" rx="4" fill="#93C5FD"/>
+              <text x="146" y="79" text-anchor="middle" font-size="10" fill="#64748B">华南</text>
+
+              <rect x="220" y="26" width="24" height="40" rx="4" fill="#2563EB"/>
+              <rect x="248" y="22" width="24" height="44" rx="4" fill="#93C5FD"/>
+              <text x="246" y="79" text-anchor="middle" font-size="10" fill="#64748B">华北</text>
+
+              <rect x="320" y="36" width="24" height="30" rx="4" fill="#D97706"/>
+              <rect x="348" y="42" width="24" height="24" rx="4" fill="#FCD34D"/>
+              <text x="346" y="79" text-anchor="middle" font-size="10" fill="#64748B">西南</text>
+            </svg>
+          </div>
+        </div>
+        <div class="feature-text">
+          <div class="feature-num">能力 02 · 经营驾驶舱</div>
+          <h3>多维经营监控、对比与异常预警</h3>
+          <p>按业务领域清晰呈现经营健康度，自动标出偏离目标的异常项，帮助管理层一眼识别风险，支持多指标并排对比与逐层下钻。</p>
+          <ul class="feature-bullets">
+            <li>按财务、销售、人力、供应链等业务域查看健康状态与预警清单</li>
+            <li>支持核心指标并排对比、同比/环比趋势分析与区域/部门维度下钻</li>
+            <li>桌面端与会议室大屏投屏友好，复盘会现场即可交互切换视角</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-row">
+        <div class="feature-text">
+          <div class="feature-num">能力 03 · AI 问数与归因</div>
+          <h3>确定性智能问数、变动拆解与每日早报</h3>
+          <p>摆脱传统大模型“一本正经胡说八道”的顾虑：所有问数基于标准指标口径与确定性计算引擎，每个数字都附带口径说明与数据来源。</p>
+          <ul class="feature-bullets">
+            <li>支持自然语言随时问数，回答自动附带计算口径、统计周期与数据出处</li>
+            <li>针对“为什么下降/波动”，自动按区域、产品线或部门逐层拆解贡献度</li>
+            <li>按登录者角色自动生成每日规则版经营早报，重点异常优先提示</li>
+          </ul>
+        </div>
+        <div class="visual-stage">
+          <div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <span style="background:#0F172A;color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;">管理层提问</span>
+              <span style="font-size:13px;font-weight:650;color:#0F172A;">“本季度销售费用率为何上升 1.8 个百分点？”</span>
+            </div>
+            <div style="background:#F8FAFC;border-left:3px solid #2563EB;padding:12px 14px;border-radius:0 8px 8px 0;margin-bottom:12px;font-size:12.5px;color:#334155;">
+              <strong>结论摘要：</strong>Q3 销售费用率为 <strong>18.4%</strong>（同比 +1.8pp），主要由线上获客投放增加（+1.2pp）与华东新团队人力扩编（+0.7pp）导致，渠道返点优化抵消了 -0.1pp。
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">
+              <div style="background:#FFF1F2;border-radius:8px;padding:9px;text-align:center;">
+                <div style="font-size:10.5px;color:#9F1239;">线上获客投放</div>
+                <div style="font-size:15px;font-weight:800;color:#E11D48;">+1.2pp</div>
+              </div>
+              <div style="background:#FFFBEB;border-radius:8px;padding:9px;text-align:center;">
+                <div style="font-size:10.5px;color:#92400E;">华东团队扩编</div>
+                <div style="font-size:15px;font-weight:800;color:#D97706;">+0.7pp</div>
+              </div>
+              <div style="background:#ECFDF5;border-radius:8px;padding:9px;text-align:center;">
+                <div style="font-size:10.5px;color:#065F46;">渠道返点优化</div>
+                <div style="font-size:15px;font-weight:800;color:#059669;">-0.1pp</div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748B;border-top:1px solid #F1F5F9;padding-top:9px;">
+              <span>口径：销售费用 ÷ 营业收入 × 100%</span>
+              <span style="color:#059669;font-weight:600;">✓ 确定性计算已校验</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 4 (Interactive Permission Matrix) -->
+      <div class="feature-row reverse">
+        <div class="visual-stage">
+          <div style="font-size:12px;font-weight:700;color:#0F172A;margin-bottom:8px;">点击切换角色，体验「层级 × 领域」权限隔离效果：</div>
+          <div class="role-tabs" id="roleTabs">
+            <button class="role-tab active" data-role="ceo">实控人 / 总经理</button>
+            <button class="role-tab" data-role="cfo">财务总监</button>
+            <button class="role-tab" data-role="sales">销售主管</button>
+            <button class="role-tab" data-role="hr">人力主管</button>
+          </div>
+          <div class="perm-grid" id="permGrid"></div>
+          <div id="permNote" style="margin-top:10px;font-size:11.5px;color:#475569;background:#fff;border:1px solid #E2E8F0;padding:8px 10px;border-radius:8px;"></div>
+        </div>
+        <div class="feature-text">
+          <div class="feature-num">能力 04 · 数据安全与鉴权</div>
+          <h3>按「业务层级 × 负责领域」强制权限隔离</h3>
+          <p>企业经营数据高度敏感。系统将全部指标划分为「公开」「运营敏感」「财务核心」三个安全等级，无论看看板还是 AI 问数，均强制执行统一权限边界。</p>
+          <ul class="feature-bullets">
+            <li>支持实控人/高管全局视野，以及财务、销售、人力、运营等职能分域管控</li>
+            <li>越权指标在看板与自然语言问数中同步隐藏或受控拦截，杜绝旁路泄露</li>
+            <li>一套系统、一份数据，安全服务企业不同层级的管理者</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 64 Metrics System -->
+<section id="metrics" style="background: var(--surface); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft);">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">04 · 标准化指标资产</div>
+      <h2 class="section-title">内置 8 大业务模块 · 64 项跨行业通用经营指标</h2>
+      <p class="section-desc">
+        基于跨行业经营分析实践沉淀，配套标准数据架构与字段规范。企业无需从零定义指标体系，上传业务宽表即可按字段齐备度自动启用。
+      </p>
+    </div>
+
+    <div class="metrics-layout">
+      <!-- Left: Distribution Chart -->
+      <div class="chart-card">
+        <h3>64 项通用指标分布</h3>
+        <div class="sub">覆盖企业经营全链路，兼顾顶层财务结果与一线运营过程</div>
+        <div class="bar-list">
+          <div class="bar-item">
+            <div class="bar-meta"><span>财务与资金</span><span>12 项</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-meta"><span>销售与营收</span><span>10 项</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:83%;"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-meta"><span>人力资源</span><span>10 项</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:83%;"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-meta"><span>市场与营销</span><span>8 项</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:67%;"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-meta"><span>供应链与库存</span><span>8 项</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:67%;"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-meta"><span>生产与运营交付</span><span>6 项</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:50%;"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-meta"><span>客户服务与成功</span><span>6 项</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:50%;"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-meta"><span>研发与 IT 效能</span><span>4 项</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:33%;"></div></div>
+          </div>
+        </div>
+
+        <div class="sensitivity-strip">
+          <div style="font-size:13px;font-weight:700;color:#0F172A;">三级数据敏感度分级管控</div>
+          <div class="seg-bar">
+            <div style="width:39%;background:#10B981;"></div>
+            <div style="width:31%;background:#F59E0B;"></div>
+            <div style="width:30%;background:#F43F5E;"></div>
+          </div>
+          <div class="seg-legend">
+            <span><i style="background:#10B981;"></i>公开 25 项</span>
+            <span><i style="background:#F59E0B;"></i>运营敏感 20 项</span>
+            <span><i style="background:#F43F5E;"></i>财务核心 19 项</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: 8 Module Cards -->
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="module-card-head"><strong>财务与资金</strong><span class="module-count">12 项</span></div>
+          <div class="module-tags"><span>营业收入</span><span>毛利率</span><span>净利率</span><span>经营现金流</span><span>应收周转天数</span><span>费用率</span></div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-head"><strong>销售与营收</strong><span class="module-count">10 项</span></div>
+          <div class="module-tags"><span>新签合同额</span><span>回款率</span><span>商机转化率</span><span>客单价</span><span>大客户占比</span></div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-head"><strong>市场与营销</strong><span class="module-count">8 项</span></div>
+          <div class="module-tags"><span>获客成本 CAC</span><span>投放 ROI</span><span>有效线索量</span><span>线索转化率</span></div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-head"><strong>人力资源</strong><span class="module-count">10 项</span></div>
+          <div class="module-tags"><span>人均产值</span><span>人力成本率</span><span>核心员工流失率</span><span>招聘达成率</span></div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-head"><strong>供应链与库存</strong><span class="module-count">8 项</span></div>
+          <div class="module-tags"><span>库存周转天数</span><span>呆滞库存占比</span><span>采购降本率</span><span>供应商准交率</span></div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-head"><strong>生产与运营交付</strong><span class="module-count">6 项</span></div>
+          <div class="module-tags"><span>按时交付率</span><span>一次合格率</span><span>产能利用率</span><span>履约周期</span></div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-head"><strong>客户服务与成功</strong><span class="module-count">6 项</span></div>
+          <div class="module-tags"><span>客户留存率</span><span>复购率</span><span>NPS 满意度</span><span>客诉响应时效</span></div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-head"><strong>研发与 IT 效能</strong><span class="module-count">4 项</span></div>
+          <div class="module-tags"><span>研发费用占比</span><span>项目按期交付率</span><span>线上故障率</span><span>需求交付周期</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Delivery & Boundaries -->
+<section id="delivery">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">05 · 交付方式与能力边界</div>
+      <h2 class="section-title">轻量标品交付，边界清晰透明</h2>
+      <p class="section-desc">
+        坚持“把轻量级经营分析做到极简可用”，明确告知交付节奏与一期边界，降低企业决策与落地预期偏差。
+      </p>
+    </div>
+
+    <!-- 4-step Onboarding -->
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4>整理标准业务宽表</h4>
+        <p>参照标准导入字段规范，导出并整理单张经营宽表（CSV / Excel）。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4>上传与字段确认</h4>
+        <p>上传文件后快速核对关键业务字段与系统语义映射关系。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4>自动激活达标指标</h4>
+        <p>系统自动匹配 64 项通用指标，字段齐备即生效，缺字段透明提示。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h4>开通角色账号启用</h4>
+        <p>按「层级 × 领域」分配管理层账号，即可日常巡检、问数与投屏。</p>
+      </div>
+    </div>
+
+    <!-- 3 Delivery Info Cards -->
+    <div class="delivery-cards">
+      <div class="info-card">
+        <div class="kicker">交付形态</div>
+        <h4>标准化轻量交付</h4>
+        <p>单域名 HTTPS 加密访问，适配桌面浏览器与会议室大屏投屏。支持按企业安全合规诉求，灵活选择 SaaS 托管或独立私有化部署形态。</p>
+      </div>
+      <div class="info-card">
+        <div class="kicker">首次可交付节奏</div>
+        <h4>研发启动后 2–3 周</h4>
+        <p>当前处于核心本体语义层技术选型与实测验证阶段；待技术路线实测定型并正式启动开发后，预计约 2–3 周（10–15 个工作日）交付首期轻量可用版本。</p>
+      </div>
+      <div class="info-card">
+        <div class="kicker">商业模式（参考）</div>
+        <h4>年度订阅 · 按需扩展</h4>
+        <p>当前产品尚未正式定型，对外报价以询价沟通为主。基础轻量标品版拟采用年度订阅模式，后续可按账号规模、行业专属指标包及二期增值能力分档。</p>
+      </div>
+    </div>
+
+    <!-- Explicit Boundaries -->
+    <div class="boundary-box">
+      <div class="boundary-col">
+        <h4><span class="ic-circle good">✓</span> 一期专注做好</h4>
+        <ul>
+          <li><strong>单宽表极速接入：</strong>标准化 CSV/Excel 导入、字段校验与 64 项通用指标自动匹配。</li>
+          <li><strong>可信经营分析：</strong>多维指标监控、预警、同比/环比对比、确定性自然语言问数与贡献拆解。</li>
+          <li><strong>安全与易用：</strong>按角色生成每日经营早报、层级×领域强制鉴权与会议室投屏适配。</li>
+        </ul>
+      </div>
+      <div class="boundary-col">
+        <h4><span class="ic-circle bad">✕</span> 一期明确不做（避免过度承诺）</h4>
+        <ul>
+          <li><strong>不做复杂 ETL 与多源同步：</strong>不含多业务系统实时直连、跨库多表复杂加工与数据自动清洗治理。</li>
+          <li><strong>不编造缺失数据：</strong>源表缺少必要字段或分母为零时如实显示缺失原因，绝不自动补零。</li>
+          <li><strong>暂不含二期扩展功能：</strong>非结构化文档印证、自助配置指标/看板后台与行业专属指标包归入二期。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Roadmap -->
+<section id="roadmap" style="background: var(--surface); border-top: 1px solid var(--border-soft);">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">06 · 产品演进路线</div>
+      <h2 class="section-title">一期夯实通用标品，二期深化行业与文档融合</h2>
+      <p class="section-desc">
+        围绕中小企业从“看得见数”到“结合业务背景深度决策”的成长路径，分阶段平滑升级。
+      </p>
+    </div>
+
+    <div class="roadmap-grid">
+      <div class="road-card phase1">
+        <span class="road-badge">Phase 1 · 轻量标品版（当前规划）</span>
+        <h3>跑通「单表上传 → 智能问数 → 经营决策」闭环</h3>
+        <p>聚焦 8 大通用业务模块 64 项核心指标，以极简上线门槛帮助中小企业快速建立统一经营驾驶舱与 AI 问数能力。</p>
+        <ul class="feature-bullets">
+          <li>标准宽表上传、自动语义匹配与缺字段透明标注</li>
+          <li>经营健康度驾驶舱、多指标对比、确定性问数与归因拆解</li>
+          <li>每日规则版经营早报与三级敏感度强制权限隔离</li>
+        </ul>
+      </div>
+
+      <div class="road-card phase2">
+        <span class="road-badge">Phase 2 · 行业深化与增值扩展（规划中）</span>
+        <h3>行业指标包 + 非结构化文档印证 + 自助配置</h3>
+        <p>已同步预备 8 大细分行业共 40 项专属指标包，并计划引入制度/纪要文档联动分析与自助配置能力。</p>
+        <ul class="feature-bullets">
+          <li><strong>文档联动印证：</strong>支持接入 PDF/Word/会议纪要，让数据波动与业务背景互相印证</li>
+          <li><strong>自助配置后台：</strong>支持企业自主调整指标口径、预警阈值与看板编排</li>
+          <li><strong>8 大行业专属指标包（共 40 项）：</strong></li>
+        </ul>
+        <div class="industry-pills">
+          <span>零售电商</span><span>生产制造</span><span>SaaS 软件</span><span>连锁餐饮</span>
+          <span>仓储物流</span><span>咨询服务</span><span>医疗诊所</span><span>教育培训</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container footer-inner">
+    <div><strong>超级 BI（轻量版）</strong> · 产品说明文档（草稿版 · 供前期沟通与方案评估使用）</div>
+    <div>支持浏览器直接预览，或点击右上角「导出 / 打印 PDF」留存分享</div>
+  </div>
+</footer>
+
+<script>
+  const permData = {
+    ceo: {
+      note: '实控人 / 总经理：拥有全局视野，可查看全公司 8 大模块所有公开、运营敏感与财务核心指标。',
+      items: [
+        { name: '营业收入与净利率', tier: 'fin', tierLabel: '财务核心', allowed: true },
+        { name: '经营现金流净额', tier: 'fin', tierLabel: '财务核心', allowed: true },
+        { name: '各区商机转化率', tier: 'ops', tierLabel: '运营敏感', allowed: true },
+        { name: '核心员工流失率', tier: 'ops', tierLabel: '运营敏感', allowed: true },
+        { name: '库存周转天数', tier: 'pub', tierLabel: '公开', allowed: true },
+        { name: '客户满意度 NPS', tier: 'pub', tierLabel: '公开', allowed: true }
+      ]
+    },
+    cfo: {
+      note: '财务总监：可查看财务与资金核心指标及公开经营数据，非授权职能的过程明细按策略隔离。',
+      items: [
+        { name: '营业收入与净利率', tier: 'fin', tierLabel: '财务核心', allowed: true },
+        { name: '经营现金流净额', tier: 'fin', tierLabel: '财务核心', allowed: true },
+        { name: '各区商机转化率', tier: 'ops', tierLabel: '运营敏感', allowed: false },
+        { name: '核心员工流失率', tier: 'ops', tierLabel: '运营敏感', allowed: false },
+        { name: '库存周转天数', tier: 'pub', tierLabel: '公开', allowed: true },
+        { name: '客户满意度 NPS', tier: 'pub', tierLabel: '公开', allowed: true }
+      ]
+    },
+    sales: {
+      note: '销售主管：聚焦销售与营收领域及公开指标；利润、现金流等财务核心指标与人事敏感数据自动屏蔽。',
+      items: [
+        { name: '营业收入与净利率', tier: 'fin', tierLabel: '财务核心', allowed: false },
+        { name: '经营现金流净额', tier: 'fin', tierLabel: '财务核心', allowed: false },
+        { name: '各区商机转化率', tier: 'ops', tierLabel: '运营敏感', allowed: true },
+        { name: '核心员工流失率', tier: 'ops', tierLabel: '运营敏感', allowed: false },
+        { name: '库存周转天数', tier: 'pub', tierLabel: '公开', allowed: true },
+        { name: '客户满意度 NPS', tier: 'pub', tierLabel: '公开', allowed: true }
+      ]
+    },
+    hr: {
+      note: '人力主管：聚焦人力资源与组织效能指标及公开数据；财务核心与销售运营敏感数据均不可见且问数受控拦截。',
+      items: [
+        { name: '营业收入与净利率', tier: 'fin', tierLabel: '财务核心', allowed: false },
+        { name: '经营现金流净额', tier: 'fin', tierLabel: '财务核心', allowed: false },
+        { name: '各区商机转化率', tier: 'ops', tierLabel: '运营敏感', allowed: false },
+        { name: '核心员工流失率', tier: 'ops', tierLabel: '运营敏感', allowed: true },
+        { name: '库存周转天数', tier: 'pub', tierLabel: '公开', allowed: true },
+        { name: '客户满意度 NPS', tier: 'pub', tierLabel: '公开', allowed: true }
+      ]
+    }
+  };
+
+  function renderPerm(role) {
+    const data = permData[role];
+    const grid = document.getElementById('permGrid');
+    grid.innerHTML = data.items.map(it => `
+      <div class="perm-cell ${it.allowed ? '' : 'locked'}">
+        <span class="tier ${it.tier}">${it.tierLabel}</span>
+        <div class="name">${it.name}</div>
+        <div class="status">${it.allowed ? '✓ 看板与问数可见' : '🔒 无权限 · 已隔离'}</div>
+      </div>
+    `).join('');
+    document.getElementById('permNote').textContent = data.note;
+  }
+
+  document.querySelectorAll('#roleTabs .role-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#roleTabs .role-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPerm(btn.dataset.role);
+    });
+  });
+
+  renderPerm('ceo');
+</script>
+</body>
+</html>
